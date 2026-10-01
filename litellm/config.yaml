@@ -1,0 +1,62 @@
+model_list:
+  - model_name: local
+    litellm_params:
+      model: openai/primary
+      api_base: http://mock:8001/v1
+      api_key: synthetic
+      max_retries: 0
+    model_info: {input_cost_per_token: 0, output_cost_per_token: 0}
+  - model_name: reserve
+    litellm_params:
+      model: openai/reserve
+      api_base: http://mock:8001/v1
+      api_key: synthetic
+      max_retries: 0
+    model_info: {input_cost_per_token: 0, output_cost_per_token: 0}
+  - model_name: fallback-demo
+    litellm_params:
+      model: openai/fail
+      api_base: http://mock:8001/v1
+      api_key: synthetic
+      max_retries: 0
+    model_info: {input_cost_per_token: 0, output_cost_per_token: 0}
+  - model_name: failure-demo
+    litellm_params:
+      model: openai/fail
+      api_base: http://mock:8001/v1
+      api_key: synthetic
+      max_retries: 0
+    model_info: {input_cost_per_token: 0, output_cost_per_token: 0}
+  - model_name: fail-reserve
+    litellm_params:
+      model: openai/fail-reserve
+      api_base: http://mock:8001/v1
+      api_key: synthetic
+      max_retries: 0
+    model_info: {input_cost_per_token: 0, output_cost_per_token: 0}
+  - model_name: timeout-demo
+    litellm_params:
+      model: openai/slow
+      api_base: http://mock:8001/v1
+      api_key: synthetic
+      max_retries: 0
+    model_info: {input_cost_per_token: 0, output_cost_per_token: 0}
+router_settings:
+  num_retries: 1
+  max_fallbacks: 1
+  timeout: 30
+  retry_after: 0
+  disable_cooldowns: true
+  fallbacks:
+    - local: [reserve]
+    - fallback-demo: [reserve]
+    - failure-demo: [fail-reserve]
+    - timeout-demo: [reserve]
+litellm_settings:
+  set_verbose: false
+  turn_off_message_logging: true
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  database_url: os.environ/DATABASE_URL
+  store_prompts_in_spend_logs: false
+  disable_spend_logs: false
