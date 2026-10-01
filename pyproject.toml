@@ -1,0 +1,28 @@
+[project]
+name = "genai-platform-lab"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi==0.115.12",
+  "uvicorn==0.34.2",
+  "httpx==0.28.1",
+  "prometheus-client==0.21.1",
+  "opentelemetry-sdk==1.32.1",
+  "opentelemetry-exporter-otlp-proto-http==1.32.1",
+]
+
+[dependency-groups]
+dev = ["pytest==8.3.5", "ruff==0.11.8", "pyyaml==6.0.2"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["integration: requires running Docker Compose stack"]
+addopts = "-m 'not integration'"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
