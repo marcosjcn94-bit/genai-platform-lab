@@ -31,3 +31,33 @@ variable "desired_count" {
     error_message = "This laboratory supports at most one task."
   }
 }
+
+variable "enable_admin" {
+  type        = bool
+  default     = false
+  description = "Temporary isolated admin container; disable after bootstrap/export."
+}
+
+variable "postgres_version" {
+  type    = string
+  default = "16.15"
+  validation {
+    condition     = can(regex("^16\\.[0-9]+$", var.postgres_version))
+    error_message = "Use an available PostgreSQL 16 minor version."
+  }
+}
+
+variable "run_id" {
+  type        = string
+  description = "Unique lowercase run suffix for the retained final snapshot."
+  validation {
+    condition     = can(regex("^[a-z0-9]{6,20}$", var.run_id))
+    error_message = "Use a unique 6-20 character lowercase alphanumeric run ID."
+  }
+}
+
+variable "deletion_protection" {
+  type        = bool
+  default     = true
+  description = "Disable only in the explicitly authorized cleanup phase; snapshot stays mandatory."
+}

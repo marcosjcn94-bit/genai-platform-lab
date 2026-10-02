@@ -22,7 +22,7 @@ resource "aws_ecs_task_definition" "lab" {
   memory                   = "3072"
   execution_role_arn       = aws_iam_role.execution.arn
   task_role_arn            = aws_iam_role.task.arn
-  container_definitions = jsonencode([
+  container_definitions = jsonencode(concat([
     {
       name             = "mock", image = var.application_image, essential = true
       command          = ["uvicorn", "mock_provider.main:app", "--host", "127.0.0.1", "--port", "8001", "--no-access-log"]
@@ -31,15 +31,15 @@ resource "aws_ecs_task_definition" "lab" {
     },
     {
       name        = "gateway", image = var.gateway_image, essential = true
-      command     = ["--config", "/config/config.yaml", "--port", "4000", "--host", "127.0.0.1"]
+      command     = ["--config", "/config/config.yaml", "--port", "4000", "--host", "127.0.0.1", "--log_config", "/config/logging.json"]
       environment = [{ name = "LITELLM_LOG", value = "ERROR" }]
       secrets = [for key in ["DATABASE_URL", "LITELLM_MASTER_KEY"] :
       { name = key, valueFrom = "${aws_secretsmanager_secret.runtime.arn}:${key}::" }]
       linuxParameters  = { initProcessEnabled = true }
       logConfiguration = local.logging
       healthCheck = {
-        command  = ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:4000/health/liveliness')\""]
-        interval = 15, timeout = 5, retries = 5, startPeriod = 120
+        command  = ["CMD-SHELL", "python -c \"import json,urllib.request; assert json.load(urllib.request.urlopen('http://127.0.0.1:4000/health/readiness',timeout=4)).get('db') == 'connected'\""]
+        interval = 15, timeout = 5, retries = 5, startPeriod = 180
       }
     },
     {
@@ -50,8 +50,21 @@ resource "aws_ecs_task_definition" "lab" {
       dependsOn        = [{ containerName = "gateway", condition = "HEALTHY" }]
       linuxParameters  = { initProcessEnabled = true }
       logConfiguration = local.logging
+      healthCheck = {
+        command  = ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready',timeout=4)\""]
+        interval = 15, timeout = 5, retries = 5, startPeriod = 180
+      }
     }
-  ])
+    ], var.enable_admin ? [{
+      name        = "admin", image = var.application_image, essential = false
+      command     = ["python", "-c", "import time; time.sleep(3600)"]
+      environment = [{ name = "GATEWAY_URL", value = "http://127.0.0.1:4000" }]
+      secrets = [for key in ["LITELLM_MASTER_KEY", "APP_A_GATEWAY_KEY", "APP_B_GATEWAY_KEY"] :
+      { name = key, valueFrom = "${aws_secretsmanager_secret.runtime.arn}:${key}::" }]
+      dependsOn        = [{ containerName = "gateway", condition = "HEALTHY" }]
+      linuxParameters  = { initProcessEnabled = true }
+      logConfiguration = local.logging
+  }] : []))
 }
 resource "aws_ecs_service" "lab" {
   name                               = var.name

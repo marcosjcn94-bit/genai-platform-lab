@@ -89,7 +89,7 @@ O job PySpark escreve agregados diários em Parquet. Para Databricks, importe [d
 
 ## Infraestrutura AWS
 
-Terraform declara ECR, ECS/Fargate, RDS privado, rede, IAM e Secrets Manager em `us-east-2`. Foi validado com `fmt -check`, `init -backend=false` e `validate`, sem `plan` nem provisionamento. Recursos podem gerar custos: deploy permanece fora do escopo executado e exige conferência de plano, créditos, duração, estimativa e autorização específica. O desenho não representa ambiente de produção nem alta disponibilidade.
+Terraform declara ECR, ECS/Fargate, RDS privado, rede, IAM e Secrets Manager em `us-east-2`. `fmt`, `validate` e três testes com provider simulado passaram. Plano autenticado privado de preparação: 26 criações, zero alterações/exclusões, task zero e digests fictícios; não deve ser aplicado. Nenhum provisionamento. Deploy exige conferência de plano, créditos, duração, estimativa e autorização específica. O desenho não representa ambiente de produção nem alta disponibilidade.
 
 [Avaliação AWS de 2026-10-02](docs/aws-evaluation-2026-10-02.md): custos públicos calculados e pendências anteriores ao deploy documentadas. Dados privados de plano/inventário ficam fora do Git. Apresentação do portfólio será preparada após a etapa AWS.
 

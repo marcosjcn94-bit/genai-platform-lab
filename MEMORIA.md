@@ -2,6 +2,16 @@
 
 ## 2026-10-02
 
+- Continuação AWS: comando preserva logging sanitizado; health exige DB conectado
+  e API ready; admin temporário separado da API; PostgreSQL 16.15, proteção de
+  exclusão parametrizada e snapshot com run_id único. Três testes Terraform passam.
+- Plano autenticado privado de preparação: 26 criações, zero alterações/exclusões;
+  desired_count=0, digests fictícios. Não aplicar esse plano; nenhum recurso criado.
+  Provider precisou de credenciais temporárias em memória, sem arquivo/terminal.
+- Ensaio local da imagem AWS passou: DB/API ready, bootstrap no DB existente,
+  chamada mock, canário/segredos ausentes dos logs e API sem master key. Não valida
+  RDS/TLS. Containers temporários removidos; instalação do plugin ainda a confirmar.
+
 - Fechamento Databricks: usuário informou `DATABRICKS_FIXTURE_OK` (equivalência
   local/remoto) e `DATABRICKS_PARQUET_OK` (reexecução idempotente). Não houve
   inspeção direta do workspace pelo Codex; o bloqueio remoto anterior foi resolvido.

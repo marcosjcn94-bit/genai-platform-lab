@@ -67,7 +67,26 @@ Fontes: [transferência entre AZs](https://aws.amazon.com/blogs/architecture/exp
 Segredos marcados para exclusão não são cobrados durante a recuperação,
 conforme [documentação](https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_delete-secret.html).
 
-## Pontos a preparar antes do deploy
+## Diagnóstico inicial e preparação posterior
+
+Os seis pontos abaixo registram o diagnóstico inicial. Nesta continuação, logs,
+administração, versão PostgreSQL, readiness e limpeza foram corrigidos no Terraform.
+Três testes com provider simulado passam e foram adicionados à CI. Admin é container
+opcional na mesma task, desativado por padrão e removido por redeploy após uso;
+processo de uma hora não substitui essa remoção. API nunca recebe master key.
+PostgreSQL fixado em 16.15; snapshot final recebe `run_id` único obrigatório.
+
+Plano autenticado privado: **26 criações, zero alterações e zero exclusões**.
+Task zero e digests placeholder: plano de preparação, não apto para execução.
+Nenhum recurso criado; plan/state/identificadores não são publicados. Permissões
+de criação/ECS Exec, TLS/migrations RDS e logs CloudWatch reais dependem do deploy.
+Instalador oficial Session Manager baixado e assinatura Amazon válida; confirmar
+conclusão da instalação/versão antes da demo. Roteiro atualizado em `aws-runbook.md`.
+
+Imagem AWS validada em Docker local com comandos ECS: DB conectado, API ready,
+bootstrap idempotente no DB existente, chamada mock e logs sem canário/segredos
+locais verificados. API sem master key. Containers temporários removidos; esse
+ensaio não comprova RDS/TLS nem tempo de inicialização/permissões Fargate.
 
 1. **Logs:** `main.tf` sobrescreve o comando do gateway e omite
    `--log_config /config/logging.json` presente na imagem. Preservar o filtro

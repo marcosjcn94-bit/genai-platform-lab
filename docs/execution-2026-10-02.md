@@ -71,3 +71,20 @@ Repositório público: https://github.com/marcosjcn94-bit/genai-platform-lab
 - Avaliação concluída: `docs/aws-evaluation-2026-10-02.md` e JSON de custos.
   Dados do pre-flight financeiro/inventário ficam fora do Git; Terraform
   fmt/validate passam. Preparação do deploy segue pendente; nenhum recurso criado.
+
+- Continuação: testes nativos Terraform demonstraram RED nos contratos de logging,
+  readiness, admin, versão DB e proteção/snapshot. Correção mínima: três cenários
+  GREEN com provider simulado; fmt/validate passam. CI ganhou job Terraform.
+- Plano autenticado privado passou: 26 criações, zero alterações/exclusões; task
+  zero, digests fictícios. Não aplicar o plano. Sessão AWS CLI traduzida para
+  credenciais temporárias somente na memória do processo; nenhum recurso criado.
+- Decisão: admin temporário na mesma task evita segunda task; timeout não substitui
+  redeploy sem admin. Readiness/TLS e limpeza reais continuam gates da execução AWS.
+- Imagem AWS local: comandos ECS e gateway config AWS executados com API/admin
+  temporários; DB conectado, API ready, bootstrap idempotente no banco local
+  existente e chamada mock passaram. Logs sem canário e segredos locais verificados;
+  master key ausente da API. Containers de teste removidos. PostgreSQL local sem
+  TLS não comprova migrations/TLS no RDS nem tempo de inicialização no Fargate.
+- Revisão independente final do diff desta preparação: nenhum defeito crítico,
+  importante ou menor confirmado. Não adicionar timeout de dependência ECS sem
+  evidência; validar startup e ECS Exec na execução real autorizada.

@@ -21,6 +21,7 @@ resource "aws_db_subnet_group" "lab" {
 resource "aws_db_instance" "lab" {
   identifier                  = var.name
   engine                      = "postgres"
+  engine_version              = var.postgres_version
   instance_class              = "db.t4g.micro"
   allocated_storage           = 20
   storage_type                = "gp3"
@@ -33,8 +34,8 @@ resource "aws_db_instance" "lab" {
   publicly_accessible         = false
   multi_az                    = false
   backup_retention_period     = 1
-  deletion_protection         = true
+  deletion_protection         = var.deletion_protection
   skip_final_snapshot         = false
-  final_snapshot_identifier   = "${var.name}-final"
+  final_snapshot_identifier   = "${var.name}-final-${var.run_id}"
   auto_minor_version_upgrade  = true
 }

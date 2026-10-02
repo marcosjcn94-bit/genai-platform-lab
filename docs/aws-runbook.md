@@ -1,6 +1,6 @@
 # AWS: implantação ainda não autorizada
 
-Estado: somente declaração; nunca confundir validate com implantação.
+Estado: configuração testada e plano autenticado de preparação; deploy pendente.
 Avaliação realizada: [custos, pendências e próxima execução](aws-evaluation-2026-10-02.md).
 Dados de plano/inventário são privados e ficam fora do Git; nenhum recurso criado.
 Região fixa us-east-2. Uma task Fargate com mock, sem API pública, sem NAT/ALB.
@@ -19,8 +19,26 @@ IPv4 público por hora, ECR armazenamento, Secrets Manager (runtime + senha RDS)
 CloudWatch ingestão/retenção, tráfego de saída e snapshots remanescentes.
 Sem saldo, duração e preços atuais confirmados, a estimativa está pendente.
 Não executar apply, publicar imagens ou povoar segredos sem autorização concreta.
-Avaliação atual não executou plan autenticado; esse plano deve ser preparado e
-revisado antes de solicitar a autorização de criação.
+Plano privado de preparação: 26 criações, zero alterações/exclusões, task zero e
+digests fictícios. Não aplicar esse arquivo. Regenerar/revisar na execução
+autorizada; plan não comprova permissões de criação.
+
+## Preparação local
+
+```powershell
+.tools/terraform/terraform.exe -chdir=infra/terraform fmt -check -recursive
+.tools/terraform/terraform.exe -chdir=infra/terraform validate
+.tools/terraform/terraform.exe -chdir=infra/terraform test -no-color
+& "$env:ProgramFiles/Amazon/SessionManagerPlugin/bin/session-manager-plugin.exe" --version
+```
+
+Testes usam provider simulado, inclusive `command=apply`; não criam recursos.
+Plugin exige administrador: [instalação AWS](https://docs.aws.amazon.com/systems-manager/latest/userguide/install-plugin-windows.html).
+Provider 6.14.1 não reconheceu diretamente a sessão `aws login` neste ambiente;
+usar credenciais temporárias capturadas em memória ou perfil separado com
+`credential_process`, conforme [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sign-in.html).
+Não imprimir exportação de credenciais nem gravá-la em arquivo.
+Plan, state, tfvars, identificadores e logs privados permanecem fora do Git.
 
 ## Sequência após autorização concreta
 1. Resolver as pendências da avaliação; revisar plan, custos e horário de destruição; manter desired_count=0 inicialmente. Isso não impede cobrança do RDS e armazenamento após criação.
@@ -28,14 +46,35 @@ revisado antes de solicitar a autorização de criação.
 3. Fora do Terraform, preencher segredo JSON runtime com DATABASE_URL (TLS requerido),
    LITELLM_MASTER_KEY, APP_A_TOKEN/B_TOKEN, APP_A_GATEWAY_KEY/B_GATEWAY_KEY e METRICS_TOKEN.
    Senha RDS é gerenciada pelo serviço; não copiar para Git/terminal/log.
-4. Atualizar digests e desired_count=1; aguardar saúde do gateway.
+4. Atualizar digests reais, `desired_count=1` e `enable_admin=true`; revisar plan
+   e aplicar somente dentro da autorização. Aguardar gateway com DB conectado e
+   API ready. PostgreSQL fixado em 16.15; reconferir disponibilidade no dia.
 5. Executar bootstrap administrativo de forma temporária e interna, removendo o
-   acesso ao master key após execução. Não expor master key no container API.
+   acesso administrativo ao master key após execução. API nunca recebe master key.
+   Admin é container opcional na mesma task; processo expira em uma hora, mas
+   isso não remove a referência ao segredo da definição. Redeploy obrigatório
+   com `enable_admin=false`; esperar task anterior parar e confirmar remoção.
 6. ECS Exec no API: health, duas chamadas sintéticas e exportação administrativa
    isolada. Não colar segredos em argumentos ou conteúdo de sessão.
+   Para exportar, habilitar admin temporariamente, obter a nova task e desabilitar
+   depois. Exemplo PowerShell após deploy autorizado:
+
+   ```powershell
+   $taskArn = aws ecs list-tasks --profile marcosjcn94 --region us-east-2 --cluster genai-platform-lab --service-name genai-platform-lab --query 'taskArns[0]' --output text
+   aws ecs execute-command --profile marcosjcn94 --region us-east-2 --cluster genai-platform-lab --task $taskArn --container admin --interactive --command 'python -m scripts.bootstrap'
+   aws ecs execute-command --profile marcosjcn94 --region us-east-2 --cluster genai-platform-lab --task $taskArn --container admin --interactive --command 'python -m scripts.report --start 2026-10-02T00:00:00Z --end 2026-10-03T00:00:00Z --output /tmp/usage'
+   ```
+
+   Substituir intervalo pelos limites UTC da execução e aguardar spend assíncrono.
+   Recuperar JSON/CSV de `/tmp` antes de parar a task; guardar somente em artefatos
+   locais ignorados pelo Git. Gateway mantém sua master key necessária ao serviço.
 7. Monitorar custos. Antes de destruir: exportar evidência sanitizada e backup aprovado.
-   Desabilitar deletion_protection explicitamente; planejar snapshot final.
+   Aplicar `deletion_protection=false` antes do destroy autorizado; snapshot final
+   permanece obrigatório. Manter `run_id` único (6–20 alfanuméricos minúsculos)
+   durante toda a execução; sufixo evita colisões entre demos.
    Esvaziar ECR somente após confirmar os digests; destruir recursos autorizados.
    Conferir snapshots, segredos em recuperação, logs, imagens e interfaces residuais.
+   Snapshot retido continua gerando armazenamento: excluir apenas com autorização
+   específica, após recuperar as evidências necessárias.
 
 A configuração não é um deploy de produção: um único banco/task; sem HA.

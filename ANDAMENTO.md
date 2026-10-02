@@ -29,7 +29,11 @@ Repositório: https://github.com/marcosjcn94-bit/genai-platform-lab
   ao PySpark local` e `DATABRICKS_PARQUET_OK: reexecução idempotente` em 2026-10-02.
   Evidência informada pelo usuário; esta sessão não inspecionou o workspace remoto.
 - Terraform 1.13.3: fmt/validate; imagem AWS construída localmente e na CI.
-  Nenhum plan/apply nem recurso AWS criado.
+  Plano autenticado de preparação: 26 criações, zero alterações/exclusões, task zero
+  e digests placeholder. Três testes Terraform simulados passam; nenhum recurso AWS criado.
+- Imagem AWS em Docker local: gateway/DB e API ready; bootstrap idempotente no
+  banco local existente; chamada mock; logs sem canário/segredos verificados e
+  master key ausente da API. Containers temporários removidos. Isso não valida RDS/TLS.
 - CI pública ampliada, execução 37021265817: lint, unidade, integração completa
   e builds das imagens aplicação/gateway passaram. Execuções posteriores devem
   ser conferidas no GitHub para o commit final.
@@ -44,8 +48,9 @@ Repositório: https://github.com/marcosjcn94-bit/genai-platform-lab
   reproduzível e passos permanecem em `docs/databricks.md`.
 - AWS não provisionada; deploy depende de verificação financeira e autorização
   específica. A entrega local e declarativa não depende desse deploy.
-- Antes do deploy: sanitização no comando ECS, administração isolada, versão
-  PostgreSQL explícita, plugin/permissões ECS Exec, saúde da API e limpeza/backup.
+- Terraform preparado: sanitização no comando ECS, admin opcional, PostgreSQL 16.15,
+  readiness API/DB e limpeza com backup/sufixo único. Antes do deploy: confirmar
+  plugin/permissões ECS Exec e validar essas condições no RDS/CloudWatch reais.
   Conferência financeira pertence ao pre-flight local privado. Apresentação do
   portfólio após AWS.
 - Configuração global Codex preservada com backup, TOML validado e raiz `.git`
