@@ -48,9 +48,10 @@ Repositório: https://github.com/marcosjcn94-bit/genai-platform-lab
 - Databricks remoto concluído conforme resultado informado pelo usuário; notebook
   reproduzível e passos permanecem em `docs/databricks.md`.
 - Demo AWS autorizada, validada e encerrada em aproximadamente 38 minutos;
-  25 recursos Terraform destruídos. Snapshot final criptografado retido e segredo
-  runtime em recuperação de sete dias. Custo faturado ainda não consolidado;
-  snapshot mantém custo de armazenamento. Nova demo exige verificação e autorização.
+  25 recursos Terraform destruídos. Snapshot final posteriormente excluído com
+  autorização específica; zero backups automáticos e bancos confirmado na AWS.
+  Segredo runtime em recuperação de sete dias. Custo faturado ainda não consolidado.
+  Nova demo exige verificação e autorização.
 - Terraform preparado: sanitização no comando ECS, admin opcional, PostgreSQL 16.15,
   readiness API/DB e limpeza com backup/sufixo único. Antes do deploy: confirmar
   plugin/permissões ECS Exec e validar essas condições no RDS/CloudWatch reais.

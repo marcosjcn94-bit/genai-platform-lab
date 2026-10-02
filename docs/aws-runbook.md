@@ -1,7 +1,7 @@
 # AWS: demo temporária validada e encerrada
 
 Estado em 2026-10-02: demo autorizada executada e 25 recursos Terraform removidos;
-snapshot final criptografado retido e segredo runtime em recuperação por sete dias.
+snapshot final excluído com autorização específica e segredo runtime em recuperação por sete dias.
 Evidências, duração e custo residual: [execução real](aws-demo-2026-10-02.md).
 As etapas abaixo orientam uma nova execução, sujeita a nova autorização concreta.
 Avaliação realizada: [custos, pendências e próxima execução](aws-evaluation-2026-10-02.md).
@@ -14,6 +14,14 @@ Wildcards nos canais SSM e ECR authorization são necessários pelo serviço.
 Sessões Exec não gravam conteúdo; CloudTrail registra a chamada administrativa.
 
 ## Gate financeiro obrigatório
+Autorização desta demo e da exclusão de seu snapshot já atendida. Para futuras
+execuções, `AGENTS.md` e `PLANO.md` exigem autorização concreta antes de apply,
+criação de recursos ou ativação de plano pago, com saldo/plano/estimativa conferidos.
+Publicação de imagens e instalação de segredos integram o escopo do deploy autorizado.
+Exclusão de snapshot exige autorização específica, conforme a limpeza abaixo.
+Preparação local, testes, documentação e preparação da apresentação não têm
+exigência adicional de autorização nesses arquivos.
+
 Conferir AWS Settings > View all projects > Overview > Additional Info > Region.
 Conferir Billing: FREE/PAID, créditos restantes, validade e limite de gastos.
 Conferir serviços permitidos e estimar para a duração concreta:

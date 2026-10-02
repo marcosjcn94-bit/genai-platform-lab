@@ -105,6 +105,8 @@ Repositório público: https://github.com/marcosjcn94-bit/genai-platform-lab
 - Execução 17:48–18:26 UTC, aproximadamente 38 minutos. Serviço zerado, ECR esvaziado,
   proteção de exclusão desabilitada e destroy de 25 recursos com snapshot obrigatório.
   Estado Terraform vazio; inventário direto conferiu ausência de infraestrutura ativa.
-- Snapshot final disponível/criptografado retido; segredo runtime em recuperação.
-  Faturamento não consolidado e armazenamento do snapshot continua cobrável;
-  exclusão depende de autorização específica. [Relatório](aws-demo-2026-10-02.md).
+- Snapshot final criado disponível/criptografado e depois excluído com autorização
+  específica do usuário. Conferência às 18:52 UTC confirmou zero snapshot final,
+  backups automáticos e bancos da demo; relatórios locais preservados.
+  Segredo runtime em recuperação; faturamento ainda não consolidado.
+  [Relatório](aws-demo-2026-10-02.md).

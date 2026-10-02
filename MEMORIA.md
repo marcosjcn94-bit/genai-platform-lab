@@ -7,9 +7,10 @@
   bootstrap idempotente, duas identidades, fallback limitado e quatro spend logs
   persistidos após redeploy. 585 eventos CloudWatch sem canário/segredos verificados.
 - Admin removido e 25 recursos Terraform destruídos; estado vazio e inventário
-  direto da AWS conferido. Snapshot final criptografado disponível e retido, sem
-  autorização de exclusão; segredo runtime em recuperação de sete dias.
-  Custo faturado ainda não consolidado; snapshot continua sujeito a armazenamento.
+  direto da AWS conferido. Snapshot final criado e posteriormente excluído com
+  autorização específica do usuário. Conferência às 18:52 UTC: zero snapshot final,
+  backups automáticos e bancos da demo; relatórios locais preservados.
+  Segredo runtime em recuperação de sete dias. Custo faturado ainda não consolidado.
   Evidências e limites: `docs/aws-demo-2026-10-02.md`; artefatos privados ignorados.
 - Windows: helper Docker falhou no login ECR; configuração temporária isolada e
   removida após push. CLI CloudWatch exigiu UTF-8 para caracteres dos logs.
