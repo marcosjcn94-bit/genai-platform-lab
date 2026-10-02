@@ -8,6 +8,16 @@
 - CI do commit `1169697` e tag `v0.1.0` passou. Usuário pediu fechamento da
   documentação e avaliação AWS, mantendo apresentação do portfólio para depois.
 - `1.md` deve ser ignorado, conforme orientação direta do usuário.
+- Avaliação AWS: dados de autenticação, estado financeiro, quotas e inventário
+  ficam no pre-flight privado local ignorado pelo Git. O relatório público
+  documenta arquitetura, preços públicos e preparação anterior ao deploy.
+- Custos regionais públicos obtidos por Bulk Price List; cálculo Decimal e JSON
+  versionado. Cenário quatro horas + reservas: US$ 0,764761, sem descontar créditos.
+- Revisão revelou comando ECS omitindo log_config sanitizado, administração
+  temporária ainda sem artefato, PostgreSQL major não fixado (padrão consultado
+  variável), plugin Session Manager ausente e sequência de limpeza pendente.
+  Terraform fmt/validate passaram; nenhuma infraestrutura foi modificada.
+- Coleta privada sanitizada por allowlist; identificadores não incluídos no Git.
 
 - Plano aprovado e repositório público informado: https://github.com/marcosjcn94-bit/genai-platform-lab.
 - `docker compose ps --all` é o comando correto; `--al` não existe.

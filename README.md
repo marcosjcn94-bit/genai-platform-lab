@@ -91,6 +91,8 @@ O job PySpark escreve agregados diários em Parquet. Para Databricks, importe [d
 
 Terraform declara ECR, ECS/Fargate, RDS privado, rede, IAM e Secrets Manager em `us-east-2`. Foi validado com `fmt -check`, `init -backend=false` e `validate`, sem `plan` nem provisionamento. Recursos podem gerar custos: deploy permanece fora do escopo executado e exige conferência de plano, créditos, duração, estimativa e autorização específica. O desenho não representa ambiente de produção nem alta disponibilidade.
 
+[Avaliação AWS de 2026-10-02](docs/aws-evaluation-2026-10-02.md): custos públicos calculados e pendências anteriores ao deploy documentadas. Dados privados de plano/inventário ficam fora do Git. Apresentação do portfólio será preparada após a etapa AWS.
+
 ## Evidência desta entrega
 
 Validação em 2026-10-02: **30 testes unitários e 6 de integração passaram**, assim como lint/formatação, Terraform e builds das duas imagens. A API responde e os testes comprovam identidade por aplicação, fallback limitado e traces correlacionados. A carga mock produziu 775 requisições em 60 s, zero erros e p95 de 422 ms. Ollama primário: dez chamadas, zero falhas, p95 das nove seguintes de 7,020 s.

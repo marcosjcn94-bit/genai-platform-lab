@@ -9,3 +9,4 @@
 7. **Execução:** repositório novo na branch implementation, sem outra linha de trabalho a isolar. Orientação LOW já confirmada no plano.
 8. **Benchmark:** p95 usa nearest rank; latências Ollama incluem apenas respostas bem-sucedidas do primário, com primeira chamada separada. Não tratar fallback como sucesso do modelo medido.
 9. **Databricks:** notebook único gerado do job canônico e fixture sintética, evitando ajustes manuais de imports e uploads. Execução local da transformação não comprova execução na Free Edition.
+10. **Avaliação AWS:** manter a demo temporária com mock e acesso interno ECS Exec; custo estimado não autoriza provisionamento. Resolver pendências de logs/administração/banco/limpeza e revisar plano antes de criar recursos. Apresentação do portfólio após a etapa AWS, por orientação do usuário.

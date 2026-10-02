@@ -34,6 +34,9 @@ Repositório: https://github.com/marcosjcn94-bit/genai-platform-lab
   e builds das imagens aplicação/gateway passaram. Execuções posteriores devem
   ser conferidas no GitHub para o commit final.
 - Commit `1169697` e tag `v0.1.0`: CI 37024332345 e 37024823542 concluídas com sucesso.
+- Avaliação AWS concluída: arquitetura revisada e custos públicos
+  calculados com Decimal: US$ 0,76 para cenário de quatro horas com reservas;
+  premissas e pendências em `docs/aws-evaluation-2026-10-02.md`. Nenhum provisionamento.
 
 ## Limites e dependências externas
 
@@ -41,6 +44,10 @@ Repositório: https://github.com/marcosjcn94-bit/genai-platform-lab
   reproduzível e passos permanecem em `docs/databricks.md`.
 - AWS não provisionada; deploy depende de verificação financeira e autorização
   específica. A entrega local e declarativa não depende desse deploy.
+- Antes do deploy: sanitização no comando ECS, administração isolada, versão
+  PostgreSQL explícita, plugin/permissões ECS Exec, saúde da API e limpeza/backup.
+  Conferência financeira pertence ao pre-flight local privado. Apresentação do
+  portfólio após AWS.
 - Configuração global Codex preservada com backup, TOML validado e raiz `.git`
   explícita adicionada; CLI nativo carregou. Políticas gerenciadas podem prevalecer,
   portanto não há garantia irrestrita de escrita em todas as sessões/perfis.

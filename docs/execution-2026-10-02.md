@@ -68,3 +68,6 @@ Repositório público: https://github.com/marcosjcn94-bit/genai-platform-lab
   encerrando o bloqueio remoto registrado anteriormente.
 - Nova orientação: ignorar `1.md`; avaliar AWS sem provisionar. Apresentação do
   portfólio somente após a etapa AWS.
+- Avaliação concluída: `docs/aws-evaluation-2026-10-02.md` e JSON de custos.
+  Dados do pre-flight financeiro/inventário ficam fora do Git; Terraform
+  fmt/validate passam. Preparação do deploy segue pendente; nenhum recurso criado.

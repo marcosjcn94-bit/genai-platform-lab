@@ -1,6 +1,8 @@
 # AWS: implantação ainda não autorizada
 
 Estado: somente declaração; nunca confundir validate com implantação.
+Avaliação realizada: [custos, pendências e próxima execução](aws-evaluation-2026-10-02.md).
+Dados de plano/inventário são privados e ficam fora do Git; nenhum recurso criado.
 Região fixa us-east-2. Uma task Fargate com mock, sem API pública, sem NAT/ALB.
 RDS privado single-AZ exige subnet group em duas AZs; isso não habilita Multi-AZ.
 ECS Exec exige filesystem gravável, Session Manager plugin e permissão do operador.
@@ -16,10 +18,12 @@ Fargate 1 vCPU/3 GB, RDS db.t4g.micro + 20 GB gp3 + backups,
 IPv4 público por hora, ECR armazenamento, Secrets Manager (runtime + senha RDS),
 CloudWatch ingestão/retenção, tráfego de saída e snapshots remanescentes.
 Sem saldo, duração e preços atuais confirmados, a estimativa está pendente.
-Não executar apply/plan autenticado, publicar imagens ou povoar segredos nesta execução.
+Não executar apply, publicar imagens ou povoar segredos sem autorização concreta.
+Avaliação atual não executou plan autenticado; esse plano deve ser preparado e
+revisado antes de solicitar a autorização de criação.
 
 ## Sequência após autorização concreta
-1. Revisar plan, custos e horário de destruição; manter desired_count=0 inicialmente.
+1. Resolver as pendências da avaliação; revisar plan, custos e horário de destruição; manter desired_count=0 inicialmente. Isso não impede cobrança do RDS e armazenamento após criação.
 2. Criar recursos autorizados; construir `application` com o `Dockerfile` da raiz e `gateway` com `docker build -f litellm/Dockerfile.aws -t <tag> .`; publicar ambas por digest no ECR. A imagem AWS inclui config local de rede para o mock e instrumentação sanitizada.
 3. Fora do Terraform, preencher segredo JSON runtime com DATABASE_URL (TLS requerido),
    LITELLM_MASTER_KEY, APP_A_TOKEN/B_TOKEN, APP_A_GATEWAY_KEY/B_GATEWAY_KEY e METRICS_TOKEN.
