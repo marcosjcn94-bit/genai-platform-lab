@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "disable_existing_loggers": true,
+  "filters": {
+    "safe": {
+      "()": "safe_logging.SafeLogFilter"
+    }
+  },
+  "formatters": {
+    "safe": {
+      "format": "%(levelname)s gateway_event"
+    }
+  },
+  "handlers": {
+    "safe": {
+      "class": "logging.StreamHandler",
+      "filters": [
+        "safe"
+      ],
+      "formatter": "safe",
+      "stream": "ext://sys.stderr"
+    }
+  },
+  "root": {
+    "level": "WARNING",
+    "handlers": [
+      "safe"
+    ]
+  },
+  "loggers": {
+    "uvicorn.access": {
+      "handlers": [],
+      "propagate": false
+    },
+    "uvicorn.error": {
+      "level": "WARNING",
+      "handlers": [
+        "safe"
+      ],
+      "propagate": false
+    },
+    "LiteLLM": {
+      "level": "WARNING",
+      "handlers": [
+        "safe"
+      ],
+      "propagate": false
+    },
+    "LiteLLM Proxy": {
+      "level": "WARNING",
+      "handlers": [
+        "safe"
+      ],
+      "propagate": false
+    },
+    "LiteLLM Router": {
+      "level": "WARNING",
+      "handlers": [
+        "safe"
+      ],
+      "propagate": false
+    }
+  }
+}

@@ -1,0 +1,54 @@
+name: ci
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lint-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --frozen
+      - run: uv run ruff check app mock_provider scripts tests observability
+      - run: uv run ruff format --check app mock_provider scripts tests observability
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --frozen
+      - run: uv run pytest -m "not integration" -q
+  integration-mock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --frozen
+      - run: uv run python -m scripts.init_env
+      - run: docker compose up -d --build --wait --wait-timeout 300 db mock gateway api
+      - run: uv run python -m scripts.bootstrap
+        env:
+          GATEWAY_URL: http://localhost:4000
+      - run: uv run pytest tests/integration/test_api_gateway.py -m integration -q
+        env:
+          GATEWAY_URL: http://localhost:4000
+      - run: docker compose down -v
+        if: always()
+  image-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false

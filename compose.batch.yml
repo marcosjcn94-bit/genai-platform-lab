@@ -1,0 +1,12 @@
+services:
+  batch:
+    image: apache/spark:3.5.5-python3
+    profiles: [batch]
+    user: "0"
+    environment:
+      SPARK_LOCAL_IP: 127.0.0.1
+    volumes:
+      - ./data:/workspace/data:ro
+      - ./artifacts:/workspace/artifacts
+    entrypoint: [/opt/spark/bin/spark-submit, --master, "local[2]"]
+    command: [/workspace/data/jobs/aggregate_usage.py, --input, /workspace/data/fixtures/usage-v1.json, --output, /workspace/artifacts/daily]

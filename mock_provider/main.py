@@ -26,7 +26,16 @@ def stats():
 async def completion(request: Request):
     body = await request.json()
     model = body.get("model", "primary")
-    if model not in {"primary", "reserve", "fail", "slow", "fail-reserve"}:
+    if model not in {
+        "primary",
+        "reserve",
+        "fail",
+        "slow",
+        "fail-reserve",
+        "fallback-reserve",
+        "timeout-reserve",
+        "failure-reserve",
+    }:
         return JSONResponse({"error": {"message": "Unknown model"}}, status_code=400)
     attempts[model] += 1
     if model in {"fail", "fail-reserve"}:

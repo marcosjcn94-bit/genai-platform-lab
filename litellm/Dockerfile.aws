@@ -1,0 +1,9 @@
+FROM ghcr.io/berriai/litellm:v1.100.2
+
+COPY litellm/config.aws.yaml /config/config.yaml
+COPY observability/safe_observability.py /config/safe_observability.py
+COPY observability/safe_logging.py /config/safe_logging.py
+COPY observability/logging.json /config/logging.json
+
+ENV PYTHONPATH=/config
+CMD ["--config", "/config/config.yaml", "--port", "4000", "--host", "127.0.0.1", "--log_config", "/config/logging.json"]

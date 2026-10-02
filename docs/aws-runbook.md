@@ -20,7 +20,7 @@ Não executar apply/plan autenticado, publicar imagens ou povoar segredos nesta 
 
 ## Sequência após autorização concreta
 1. Revisar plan, custos e horário de destruição; manter desired_count=0 inicialmente.
-2. Criar recursos autorizados; publicar imagens application e gateway por digest no ECR.
+2. Criar recursos autorizados; construir `application` com o `Dockerfile` da raiz e `gateway` com `docker build -f litellm/Dockerfile.aws -t <tag> .`; publicar ambas por digest no ECR. A imagem AWS inclui config local de rede para o mock e instrumentação sanitizada.
 3. Fora do Terraform, preencher segredo JSON runtime com DATABASE_URL (TLS requerido),
    LITELLM_MASTER_KEY, APP_A_TOKEN/B_TOKEN, APP_A_GATEWAY_KEY/B_GATEWAY_KEY e METRICS_TOKEN.
    Senha RDS é gerenciada pelo serviço; não copiar para Git/terminal/log.
