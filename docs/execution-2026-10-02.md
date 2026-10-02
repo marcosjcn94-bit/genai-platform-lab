@@ -27,3 +27,17 @@ Repositório público: https://github.com/marcosjcn94-bit/genai-platform-lab
 - Ollama HTTP respondeu; `qwen3:4b` e `llama3.2:3b` disponíveis.
 - GitHub público já contém `fc9ccf1`; publicar somente por fast-forward.
 - AWS continua sem autorização de provisionamento.
+- Stack/identidades recuperadas: API live/ready 200; gateway e PostgreSQL saudáveis.
+- Configuração global Codex: backup feito, tabelas inline OTel normalizadas sem
+  mudar valores, TOML validado e raiz `.git` explícita adicionada. CLI 0.160.0
+  carrega; a política gerenciada desta sessão continua exigindo execução autorizada.
+- Integração: 6 passed (API/gateway, vertical, três cenários de confiabilidade,
+  traces/métricas). Reexecução direta também passou em 132,66 s.
+- Benchmark: regressão RED (4 falhas) -> GREEN (30 testes unitários); p95 por
+  nearest rank e somente respostas do modelo primário entram nas latências.
+- Ollama primário: 10 chamadas, zero falhas; primeira 31,974 s; warm p50 5,464 s,
+  warm p95 7,020 s. Benchmark local, sem SLO de produção.
+- PySpark fixture: BATCH_OK; Terraform fmt/validate passam; imagem AWS construída
+  localmente. Nenhum recurso AWS criado.
+- Databricks: inventário de automação não expõe navegador/sessão. Preparar notebook
+  único com fixture incorporada; execução Free Edition depende do login do usuário.
