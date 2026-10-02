@@ -5,14 +5,14 @@ Repositório público: https://github.com/marcosjcn94-bit/genai-platform-lab
 
 ## Critérios
 
-- [ ] Stack local e acesso Git/Docker recuperados; segredos e PostgreSQL preservados.
-- [ ] API, identidade, consumo e persistência após reinício validados.
-- [ ] Fallback, falha total e deadlines com tentativas limitadas comprovados.
-- [ ] Traces correlacionados e telemetria sem conteúdo sensível comprovados.
-- [ ] Carga mock de 60 s/concorrência 4 e Ollama medidos.
-- [ ] Fixture e exportação sanitizada reconciliadas no PySpark.
+- [x] Stack local e acesso Git/Docker recuperados; segredos e PostgreSQL preservados.
+- [x] API, identidade, consumo e persistência após reinício validados.
+- [x] Fallback, falha total e deadlines com tentativas limitadas comprovados.
+- [x] Traces correlacionados e telemetria sem conteúdo sensível comprovados.
+- [x] Carga mock de 60 s/concorrência 4 e Ollama medidos.
+- [x] Fixture e exportação sanitizada reconciliadas no PySpark.
 - [ ] Databricks executado ou bloqueio externo documentado com instruções concretas.
-- [ ] Terraform/imagem AWS validados sem provisionamento; CI pública verde.
+- [x] Terraform/imagem AWS validados sem provisionamento; CI pública verde.
 - [ ] Recuperação/rollback demonstrados, documentação atualizada e commits publicados.
 
 ## Registro
@@ -41,3 +41,15 @@ Repositório público: https://github.com/marcosjcn94-bit/genai-platform-lab
   localmente. Nenhum recurso AWS criado.
 - Databricks: inventário de automação não expõe navegador/sessão. Preparar notebook
   único com fixture incorporada; execução Free Edition depende do login do usuário.
+- Carga: 775 requisições/60 s/concorrência 4, zero erros, p95 0,421923 s.
+- Reserva Ollama via API: `llama3.2:3b`, 31 tokens na chamada sintética.
+- Persistência: 804 registros idênticos após reiniciar banco/gateway.
+- Batch real: 804 registros e 7 grupos app/model reconciliados com o relatório.
+- Rollback: duas imagens distintas, live/ready/chat saudáveis, 804 registros
+  preservados; imagem atual restaurada.
+- Notebook local: primeira execução revelou `DoubleType` rejeitando duração inteira;
+  converter duração para float no adaptador da fixture, sem mudar a transformação.
+  Reexecução passou: NOTEBOOK_LOCAL_OK. Célula de Volume depende do Databricks.
+- CI `37021265817`: cinco jobs verdes, incluindo integração completa e duas imagens.
+- Configuração global também carregou via `codex features list`; não foi feita
+  inferência em subprocesso Codex nem alterado o perfil gerenciado da sessão atual.
