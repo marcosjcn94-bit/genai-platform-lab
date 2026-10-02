@@ -1,8 +1,11 @@
-# AWS: implantação ainda não autorizada
+# AWS: demo temporária validada e encerrada
 
-Estado: configuração testada e plano autenticado de preparação; deploy pendente.
+Estado em 2026-10-02: demo autorizada executada e 25 recursos Terraform removidos;
+snapshot final criptografado retido e segredo runtime em recuperação por sete dias.
+Evidências, duração e custo residual: [execução real](aws-demo-2026-10-02.md).
+As etapas abaixo orientam uma nova execução, sujeita a nova autorização concreta.
 Avaliação realizada: [custos, pendências e próxima execução](aws-evaluation-2026-10-02.md).
-Dados de plano/inventário são privados e ficam fora do Git; nenhum recurso criado.
+Dados de plano/inventário são privados e ficam fora do Git.
 Região fixa us-east-2. Uma task Fargate com mock, sem API pública, sem NAT/ALB.
 RDS privado single-AZ exige subnet group em duas AZs; isso não habilita Multi-AZ.
 ECS Exec exige filesystem gravável, Session Manager plugin e permissão do operador.

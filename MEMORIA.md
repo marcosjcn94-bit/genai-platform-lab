@@ -2,6 +2,21 @@
 
 ## 2026-10-02
 
+- Demo AWS posteriormente autorizada e executada em aproximadamente 38 minutos:
+  ECR por digest real, Fargate HEALTHY, RDS/PostgreSQL 16.15 com TLS 1.3,
+  bootstrap idempotente, duas identidades, fallback limitado e quatro spend logs
+  persistidos após redeploy. 585 eventos CloudWatch sem canário/segredos verificados.
+- Admin removido e 25 recursos Terraform destruídos; estado vazio e inventário
+  direto da AWS conferido. Snapshot final criptografado disponível e retido, sem
+  autorização de exclusão; segredo runtime em recuperação de sete dias.
+  Custo faturado ainda não consolidado; snapshot continua sujeito a armazenamento.
+  Evidências e limites: `docs/aws-demo-2026-10-02.md`; artefatos privados ignorados.
+- Windows: helper Docker falhou no login ECR; configuração temporária isolada e
+  removida após push. CLI CloudWatch exigiu UTF-8 para caracteres dos logs.
+  SDK auxiliar ficou apenas em `.tools`, sem alterar dependências da aplicação.
+
+Preparação anterior à autorização:
+
 - Continuação AWS: comando preserva logging sanitizado; health exige DB conectado
   e API ready; admin temporário separado da API; PostgreSQL 16.15, proteção de
   exclusão parametrizada e snapshot com run_id único. Três testes Terraform passam.

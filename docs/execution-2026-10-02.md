@@ -88,3 +88,23 @@ Repositório público: https://github.com/marcosjcn94-bit/genai-platform-lab
 - Revisão independente final do diff desta preparação: nenhum defeito crítico,
   importante ou menor confirmado. Não adicionar timeout de dependência ECS sem
   evidência; validar startup e ECS Exec na execução real autorizada.
+
+## Demo AWS autorizada e encerrada
+
+- Usuário confirmou Session Manager, validade de créditos e demo de até quatro
+  horas. Plano gratuito, margem financeira, região, quota e PostgreSQL conferidos.
+- ECR criado antes do plano completo; imagens reais por digest publicadas. Plano
+  antigo não aplicado. Provisionamento manteve task zero até instalar segredo runtime.
+- Fargate HEALTHY e ECS Exec; RDS 16.15/TLS 1.3; bootstrap duas vezes; autenticação,
+  duas aplicações, fallback de três tentativas e falha limitada a quatro passaram.
+- Quatro registros exportados em JSON/CSV; três sucessos reconciliados por app/ID
+  e tokens. Admin removido por redeploy; os quatro registros permaneceram no RDS.
+- Inspeção de 585 eventos CloudWatch sem canário e segredos verificados. Credenciais
+  AWS usadas em memória; autenticação Docker temporária removida; configuração
+  global e dependências da aplicação preservadas.
+- Execução 17:48–18:26 UTC, aproximadamente 38 minutos. Serviço zerado, ECR esvaziado,
+  proteção de exclusão desabilitada e destroy de 25 recursos com snapshot obrigatório.
+  Estado Terraform vazio; inventário direto conferiu ausência de infraestrutura ativa.
+- Snapshot final disponível/criptografado retido; segredo runtime em recuperação.
+  Faturamento não consolidado e armazenamento do snapshot continua cobrável;
+  exclusão depende de autorização específica. [Relatório](aws-demo-2026-10-02.md).

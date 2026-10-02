@@ -2,7 +2,7 @@
 
 1. **Fonte de consumo:** LiteLLM/PostgreSQL; exportações e Parquet são derivados reconstruíveis. Não há ledger próprio.
 2. **Identidade:** credencial externa identifica aplicação no servidor; uma chave virtual por aplicação. Cliente não escolhe identidade, provedor nem política de retry.
-3. **Custo:** mock e Ollama locais por padrão; nenhuma criação AWS autorizada. Recursos regionais declarativos somente em us-east-2.
+3. **Custo:** mock e Ollama locais por padrão. Exceção de 2026-10-02: demo AWS autorizada por até quatro horas, com reserva operacional de US$ 2 em créditos e snapshot final retido. Recursos regionais somente em us-east-2; reserva não é teto automático.
 4. **Confiabilidade:** retries e fallback no gateway, sem repetição na API. Teto de quatro tentativas comprovado por integração com contadores do mock.
 5. **Privacidade:** observabilidade usa atributos permitidos explicitamente. Nenhum conteúdo de mensagens ou credenciais em telemetria.
 6. **Interface:** Swagger, Grafana, Jaeger e relatório administrativo; sem frontend próprio.

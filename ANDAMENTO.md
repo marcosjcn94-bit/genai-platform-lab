@@ -30,7 +30,8 @@ Repositório: https://github.com/marcosjcn94-bit/genai-platform-lab
   Evidência informada pelo usuário; esta sessão não inspecionou o workspace remoto.
 - Terraform 1.13.3: fmt/validate; imagem AWS construída localmente e na CI.
   Plano autenticado de preparação: 26 criações, zero alterações/exclusões, task zero
-  e digests placeholder. Três testes Terraform simulados passam; nenhum recurso AWS criado.
+  e digests placeholder, anteriores à autorização. Três testes Terraform simulados passam;
+  esse plano não foi aplicado. Execução real e limpeza posteriores: `docs/aws-demo-2026-10-02.md`.
 - Imagem AWS em Docker local: gateway/DB e API ready; bootstrap idempotente no
   banco local existente; chamada mock; logs sem canário/segredos verificados e
   master key ausente da API. Containers temporários removidos. Isso não valida RDS/TLS.
@@ -46,11 +47,15 @@ Repositório: https://github.com/marcosjcn94-bit/genai-platform-lab
 
 - Databricks remoto concluído conforme resultado informado pelo usuário; notebook
   reproduzível e passos permanecem em `docs/databricks.md`.
-- AWS não provisionada; deploy depende de verificação financeira e autorização
-  específica. A entrega local e declarativa não depende desse deploy.
+- Demo AWS autorizada, validada e encerrada em aproximadamente 38 minutos;
+  25 recursos Terraform destruídos. Snapshot final criptografado retido e segredo
+  runtime em recuperação de sete dias. Custo faturado ainda não consolidado;
+  snapshot mantém custo de armazenamento. Nova demo exige verificação e autorização.
 - Terraform preparado: sanitização no comando ECS, admin opcional, PostgreSQL 16.15,
   readiness API/DB e limpeza com backup/sufixo único. Antes do deploy: confirmar
   plugin/permissões ECS Exec e validar essas condições no RDS/CloudWatch reais.
+  Essa validação real foi concluída na demo de 2026-10-02: TLS 1.3, API ready,
+  duas identidades, fallback limitado, consumo persistido e 585 eventos sanitizados.
   Conferência financeira pertence ao pre-flight local privado. Apresentação do
   portfólio após AWS.
 - Configuração global Codex preservada com backup, TOML validado e raiz `.git`

@@ -1,8 +1,10 @@
 # Avaliação AWS — 2026-10-02
 
-Resultado: desenho adequado para uma demonstração interna temporária com mock;
-**deploy ainda não liberado**. Avaliação não cria recursos nem comprova operação
-na nuvem. Apresentação do portfólio permanece para depois da etapa AWS.
+Resultado da avaliação anterior à autorização: desenho adequado para uma
+demonstração interna temporária com mock, sem provisionamento nessa avaliação.
+Posteriormente, o usuário autorizou a demo: [execução, validação real e limpeza](aws-demo-2026-10-02.md).
+O relato abaixo preserva a preparação anterior; não representa o estado atual.
+Apresentação do portfólio permanece para depois da etapa AWS.
 
 ## Verificação técnica e privacidade
 
