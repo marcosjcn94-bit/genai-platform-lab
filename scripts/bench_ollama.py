@@ -10,6 +10,7 @@ from pathlib import Path
 import httpx
 
 from scripts.env import load_env
+from scripts.load_test import percentile
 
 
 def main():
@@ -17,9 +18,11 @@ def main():
     samples = []
     failures = 0
     cold_start_seconds = None
+    started_at = datetime.now(UTC).isoformat()
     with httpx.Client(timeout=130, trust_env=False) as client:
         for index in range(10):
             started = time.perf_counter()
+            success = False
             try:
                 response = client.post(
                     "http://localhost:8000/v1/chat/completions",
@@ -31,24 +34,25 @@ def main():
                     },
                 )
                 response.raise_for_status()
-                if response.json().get("model") != "qwen3:4b":
-                    failures += 1
+                success = response.json().get("model") == "qwen3:4b"
             except (httpx.HTTPError, ValueError):
-                failures += 1
+                pass
+            failures += int(not success)
             elapsed = time.perf_counter() - started
-            if index == 0:
+            if index == 0 and success:
                 cold_start_seconds = elapsed
-            else:
+            elif index > 0 and success:
                 samples.append(elapsed)
     result = {
         "scenario": "Ollama qwen3:4b via local gateway",
-        "started_at": datetime.now(UTC).isoformat(),
+        "started_at": started_at,
         "requests": 10,
         "failures": failures,
         "cold_start_seconds": cold_start_seconds,
-        "warm_requests": len(samples),
+        "warm_requests": 9,
+        "warm_successful_requests": len(samples),
         "warm_p50_seconds": statistics.median(samples) if samples else None,
-        "warm_p95_seconds": sorted(samples)[min(len(samples) - 1, 7)] if samples else None,
+        "warm_p95_seconds": percentile(samples, 0.95),
     }
     output = Path("artifacts/ollama-benchmark.json")
     output.parent.mkdir(parents=True, exist_ok=True)
