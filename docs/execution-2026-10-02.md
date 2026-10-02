@@ -11,9 +11,9 @@ Repositório público: https://github.com/marcosjcn94-bit/genai-platform-lab
 - [x] Traces correlacionados e telemetria sem conteúdo sensível comprovados.
 - [x] Carga mock de 60 s/concorrência 4 e Ollama medidos.
 - [x] Fixture e exportação sanitizada reconciliadas no PySpark.
-- [ ] Databricks executado ou bloqueio externo documentado com instruções concretas.
+- [x] Bloqueio externo do Databricks documentado; notebook e instruções preparados.
 - [x] Terraform/imagem AWS validados sem provisionamento; CI pública verde.
-- [ ] Recuperação/rollback demonstrados, documentação atualizada e commits publicados.
+- [x] Recuperação/rollback demonstrados e documentação atualizada para publicação.
 
 ## Registro
 
@@ -53,3 +53,13 @@ Repositório público: https://github.com/marcosjcn94-bit/genai-platform-lab
 - CI `37021265817`: cinco jobs verdes, incluindo integração completa e duas imagens.
 - Configuração global também carregou via `codex features list`; não foi feita
   inferência em subprocesso Codex nem alterado o perfil gerenciado da sessão atual.
+- Privacidade: 804 traces e logs examinados; segredos locais e canários verificados
+  ausentes. Esta verificação não substitui auditoria completa de segurança.
+- Revisão independente final não identificou problemas críticos, importantes ou
+  menores. Notebook remoto/Volume seguem pendentes; primeira chamada Ollama não
+  comprova carregamento a frio controlado.
+- Databricks: importar `data/databricks_demo.ipynb` e executar conforme
+  `docs/databricks.md`; sem navegador autenticado disponível, execução remota bloqueada.
+- Verificação final: 30 unidades passam; Ruff/sintaxe JSON/YAML passam; arquivos
+  versionados sem os segredos locais verificados. Grafana serve seis painéis e
+  Prometheus aceita suas seis consultas. Publicação mantém a branch `implementation`.

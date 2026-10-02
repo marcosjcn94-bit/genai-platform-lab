@@ -1,5 +1,28 @@
 # Registro de execução
 
+## 2026-10-02
+
+- Plano aprovado e repositório público informado: https://github.com/marcosjcn94-bit/genai-platform-lab.
+- `docker compose ps --all` é o comando correto; `--al` não existe.
+- Docker funcionou fora da restrição da sessão. API em `Created` aguardava gateway;
+  build/start/health e bootstrap recuperaram a stack sem correção da API.
+- Configuração global Codex tinha tabelas inline OTel multilinha incompatíveis com
+  TOML 1.0. Backup feito, formatação normalizada preservando valores, raiz explícita
+  `.git` adicionada e `codex features list` passou. Não substitui política gerenciada.
+- 30 unitários, 6 integrações, lint/formatação; fallback/deadlines/traces reais passaram.
+- Benchmark Ollama: p95 incorreto e falhas misturadas às latências corrigidos com
+  4 testes RED->GREEN. Dez chamadas primárias sem falha; reserva também validada.
+- Carga mock: 775 chamadas/60 s/concorrência 4, zero erros, p95 422 ms.
+- Persistência/rollback: 804 eventos idênticos preservados. Parquet real reconciliou
+  804 eventos/7 grupos; fixture e idempotência PySpark passaram novamente.
+- Notebook único gerado e executado parcialmente no Spark local. `createDataFrame`
+  exige float para DoubleType, ao contrário da leitura JSON que converte inteiros.
+  Adaptador da fixture corrigido; Databricks remoto pendente por falta de navegador.
+- CI pública 37021265817 passou os cinco jobs; imagem AWS validada sem provisionamento.
+- Privacidade: 804 traces e logs do runtime sem marcadores sensíveis. Valores reais
+  dos segredos locais ausentes das 324 revisões de arquivos dos 7 commits inspecionados.
+- Valores de carga/Ollama são observações desta máquina; não resultados de produção.
+
 ## 2026-10-01
 - Plano recebido e PLANO.md conferidos; inicialmente apenas PLANO.md e AGENTS.md.
 - Git inicializado na branch implementation.

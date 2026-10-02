@@ -1,5 +1,7 @@
 # GenAI Platform Lab
 
+Repositório: https://github.com/marcosjcn94-bit/genai-platform-lab
+
 Laboratório local e reproduzível de gateway GenAI: identidade por aplicação, roteamento LiteLLM, registro de consumo no PostgreSQL, fallback limitado, observabilidade e agregação PySpark. O provedor padrão é um mock determinístico; chamadas Ollama são locais e opcionais. O relatório deriva dos registros do LiteLLM, sem ledger paralelo.
 
 ## Requisitos
@@ -27,7 +29,7 @@ O inicializador cria `.env` uma vez, com segredos aleatórios que nunca imprime.
 Para encerrar sem apagar registros:
 
 ```powershell
-docker compose down
+docker compose -f docker-compose.yml -f compose.observability.yml --profile observability down
 ```
 
 ## Demonstração e consumo
@@ -37,7 +39,9 @@ docker compose down
 Gere relatório administrativo em UTC, com fim exclusivo:
 
 ```powershell
-uv run python -m scripts.report --start 2026-10-01T00:00:00Z --end 2026-10-02T00:00:00Z
+$inicio = [DateTime]::UtcNow.Date.ToString("yyyy-MM-ddTHH:mm:ssZ")
+$fim = [DateTime]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ")
+uv run python -m scripts.report --start $inicio --end $fim
 ```
 
 Saídas `artifacts/usage.json` e `.csv` são reconstruíveis e ignoradas pelo Git. O relatório informa cobertura e preserva campos/custos ausentes como nulos. Registros de spend são assíncronos; execute novamente para períodos fechados.
@@ -54,26 +58,26 @@ Grafana: <http://localhost:3000>; Prometheus: <http://localhost:9090>; Jaeger: <
 ## Testes e batch
 
 ```powershell
-uv run ruff check app mock_provider scripts tests
-uv run ruff format --check app mock_provider scripts tests
+uv run ruff check app mock_provider scripts tests observability
+uv run ruff format --check app mock_provider scripts tests observability
 uv run pytest -q
 uv run pytest -m integration -q
 docker compose -f docker-compose.yml -f compose.batch.yml --profile batch run --rm batch
 ```
 
-A integração requer o Compose ativo. Carga mock limitada a 60 s e concorrência 4:
+A integração requer o Compose com observabilidade ativo e as chaves inicializadas. Para uma demo rápida, execute `uv run pytest -m integration tests/integration/test_api_gateway.py -q`, gere o relatório e abra o dashboard Grafana. Carga mock limitada a 60 s e concorrência 4:
 
 ```powershell
 uv run python -m scripts.load_test --duration 60 --concurrency 4
 ```
 
-Para dez chamadas sequenciais ao Ollama primário, separando a primeira latência (carregamento) das nove seguintes:
+Para dez chamadas sequenciais ao Ollama primário, separando a primeira latência das nove seguintes (o estado inicial de carregamento do modelo não é controlado):
 
 ```powershell
 uv run python -m scripts.bench_ollama
 ```
 
-O job PySpark escreve agregados diários em Parquet. Notebook Databricks e fixture estão em `data/`; a execução remota ainda não foi verificada.
+O job PySpark escreve agregados diários em Parquet. Para Databricks, importe [data/databricks_demo.ipynb](data/databricks_demo.ipynb), que contém a fixture e a transformação canônica. Veja o [passo a passo](docs/databricks.md). As células de transformação passaram no Spark local; a execução remota e o Volume ainda não foram verificados.
 
 ## Arquitetura e segurança
 
@@ -89,4 +93,8 @@ Terraform declara ECR, ECS/Fargate, RDS privado, rede, IAM e Secrets Manager em 
 
 ## Evidência desta entrega
 
-Ver [ANDAMENTO.md](ANDAMENTO.md) e [MEMORIA.md](MEMORIA.md). Na última validação, 26 testes unitários e lint/formatação passaram; integração vertical e batch passaram. A API local não respondeu durante a verificação final e o acesso ao Docker named pipe foi negado, então reliability, carga, integração Ollama e trace ponta a ponta ficaram pendentes. O workflow em `.github/workflows/ci.yml` foi criado, mas não executado no GitHub.
+Validação em 2026-10-02: **30 testes unitários e 6 de integração passaram**, assim como lint/formatação, Terraform e builds das duas imagens. A API responde e os testes comprovam identidade por aplicação, fallback limitado e traces correlacionados. A carga mock produziu 775 requisições em 60 s, zero erros e p95 de 422 ms. Ollama primário: dez chamadas, zero falhas, p95 das nove seguintes de 7,020 s.
+
+804 registros foram preservados após reinício e rollback da API; os agregados PySpark foram reconciliados em sete grupos. A revisão de 804 traces e logs não encontrou os segredos/canários verificados. Estes resultados locais não constituem SLO ou auditoria completa de segurança. [CI com cinco jobs verdes](https://github.com/marcosjcn94-bit/genai-platform-lab/actions/runs/37021265817); novos resultados aparecem em [Actions](https://github.com/marcosjcn94-bit/genai-platform-lab/actions).
+
+AWS não foi provisionada e Databricks remoto continua pendente. Evidências e limites: [ANDAMENTO.md](ANDAMENTO.md), [registro de execução](docs/execution-2026-10-02.md) e [MEMORIA.md](MEMORIA.md).

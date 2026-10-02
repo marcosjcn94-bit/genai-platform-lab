@@ -125,7 +125,7 @@ Rollback: tag de imagem anterior, configuração versionada e passo de health ch
 
 ## Resultado esperado
 
-Demonstrar gateway, autenticação por aplicação, consumo atribuído, fallback, métricas, traces, processamento PySpark e infraestrutura declarativa. O texto da vaga não está disponível; este arquivo define o escopo. Evidências devem distinguir execução local, configuração AWS validada e eventual deploy real. Git ainda não foi inicializado nesta pasta.
+Demonstrar gateway, autenticação por aplicação, consumo atribuído, fallback, métricas, traces, processamento PySpark e infraestrutura declarativa. O texto da vaga não está disponível; este arquivo define o escopo. Evidências devem distinguir execução local, configuração AWS validada e eventual deploy real. No planejamento inicial, Git ainda não estava inicializado; o estado atual está em `ANDAMENTO.md`.
 
 O ambiente inspecionado tem 16 GB de RAM, GPU Intel Iris Xe e modelos Ollama `qwen3:4b`, `llama3.2:3b`, `qwen2.5-coder:7b`, `qwen2.5:1.5b` e `qwen2.5:3b`. Usar `qwen3:4b` e `llama3.2:3b` como candidatos inicial e reserva, fixando a escolha após uma medição curta. Docker Desktop está instalado, mas o daemon estava parado. Mock determinístico cobre CI e falhas reproduzíveis.
 
