@@ -25,16 +25,20 @@ Repositório: https://github.com/marcosjcn94-bit/genai-platform-lab
   exportação real sanitizada com 804 registros e 7 grupos app/model reconciliada.
 - Notebook Databricks único gerado do job canônico, compilado e transformação/
   assertions executadas no Spark local. Célula de Volume não executada localmente.
+- Databricks remoto: usuário informou `DATABRICKS_FIXTURE_OK: resultados iguais
+  ao PySpark local` e `DATABRICKS_PARQUET_OK: reexecução idempotente` em 2026-10-02.
+  Evidência informada pelo usuário; esta sessão não inspecionou o workspace remoto.
 - Terraform 1.13.3: fmt/validate; imagem AWS construída localmente e na CI.
   Nenhum plan/apply nem recurso AWS criado.
 - CI pública ampliada, execução 37021265817: lint, unidade, integração completa
   e builds das imagens aplicação/gateway passaram. Execuções posteriores devem
   ser conferidas no GitHub para o commit final.
+- Commit `1169697` e tag `v0.1.0`: CI 37024332345 e 37024823542 concluídas com sucesso.
 
 ## Limites e dependências externas
 
-- Databricks remoto ainda não executado: sessão sem navegador conectado.
-  Importar `data/databricks_demo.ipynb`; seguir `docs/databricks.md`.
+- Databricks remoto concluído conforme resultado informado pelo usuário; notebook
+  reproduzível e passos permanecem em `docs/databricks.md`.
 - AWS não provisionada; deploy depende de verificação financeira e autorização
   específica. A entrega local e declarativa não depende desse deploy.
 - Configuração global Codex preservada com backup, TOML validado e raiz `.git`

@@ -11,7 +11,7 @@ Repositório público: https://github.com/marcosjcn94-bit/genai-platform-lab
 - [x] Traces correlacionados e telemetria sem conteúdo sensível comprovados.
 - [x] Carga mock de 60 s/concorrência 4 e Ollama medidos.
 - [x] Fixture e exportação sanitizada reconciliadas no PySpark.
-- [x] Bloqueio externo do Databricks documentado; notebook e instruções preparados.
+- [x] Databricks: equivalência da fixture e Parquet idempotente confirmados pelo usuário.
 - [x] Terraform/imagem AWS validados sem provisionamento; CI pública verde.
 - [x] Recuperação/rollback demonstrados e documentação atualizada para publicação.
 
@@ -63,3 +63,8 @@ Repositório público: https://github.com/marcosjcn94-bit/genai-platform-lab
 - Verificação final: 30 unidades passam; Ruff/sintaxe JSON/YAML passam; arquivos
   versionados sem os segredos locais verificados. Grafana serve seis painéis e
   Prometheus aceita suas seis consultas. Publicação mantém a branch `implementation`.
+- Fechamento: commit `1169697`, tag `v0.1.0`; ambas as CI passaram (37024332345,
+  37024823542). Usuário confirmou os dois marcadores Databricks em 2026-10-02,
+  encerrando o bloqueio remoto registrado anteriormente.
+- Nova orientação: ignorar `1.md`; avaliar AWS sem provisionar. Apresentação do
+  portfólio somente após a etapa AWS.

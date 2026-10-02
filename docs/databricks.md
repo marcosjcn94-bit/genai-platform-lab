@@ -32,7 +32,16 @@ da transformação: altere o job canônico e regenere o notebook.
 
 Células Python compiladas e transformação/fixture executadas no Spark local.
 A célula de Volume e a execução Databricks são validações remotas separadas.
-Esta sessão não tem navegador conectado para realizar seu login ou executar o notebook.
+Em 2026-10-02, o usuário executou o notebook e informou:
+
+```text
+DATABRICKS_FIXTURE_OK: resultados iguais ao PySpark local
+DATABRICKS_PARQUET_OK: reexecução idempotente
+```
+
+Resultado remoto informado pelo usuário; o Codex não inspecionou diretamente
+o workspace. Esta validação cobre a fixture e seu Parquet, não uma integração
+AWS/Databricks nem o processamento remoto de todo o export local.
 
 Documentação oficial:
 - [Importação de notebooks](https://docs.databricks.com/aws/en/notebooks/notebook-export-import)

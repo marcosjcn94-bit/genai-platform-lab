@@ -2,6 +2,13 @@
 
 ## 2026-10-02
 
+- Fechamento Databricks: usuário informou `DATABRICKS_FIXTURE_OK` (equivalência
+  local/remoto) e `DATABRICKS_PARQUET_OK` (reexecução idempotente). Não houve
+  inspeção direta do workspace pelo Codex; o bloqueio remoto anterior foi resolvido.
+- CI do commit `1169697` e tag `v0.1.0` passou. Usuário pediu fechamento da
+  documentação e avaliação AWS, mantendo apresentação do portfólio para depois.
+- `1.md` deve ser ignorado, conforme orientação direta do usuário.
+
 - Plano aprovado e repositório público informado: https://github.com/marcosjcn94-bit/genai-platform-lab.
 - `docker compose ps --all` é o comando correto; `--al` não existe.
 - Docker funcionou fora da restrição da sessão. API em `Created` aguardava gateway;

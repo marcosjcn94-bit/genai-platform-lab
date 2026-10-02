@@ -77,7 +77,7 @@ Para dez chamadas sequenciais ao Ollama primário, separando a primeira latênci
 uv run python -m scripts.bench_ollama
 ```
 
-O job PySpark escreve agregados diários em Parquet. Para Databricks, importe [data/databricks_demo.ipynb](data/databricks_demo.ipynb), que contém a fixture e a transformação canônica. Veja o [passo a passo](docs/databricks.md). As células de transformação passaram no Spark local; a execução remota e o Volume ainda não foram verificados.
+O job PySpark escreve agregados diários em Parquet. Para Databricks, importe [data/databricks_demo.ipynb](data/databricks_demo.ipynb), que contém a fixture e a transformação canônica. Veja o [passo a passo](docs/databricks.md). A transformação passou no Spark local; o usuário confirmou no Databricks remoto os resultados equivalentes e a reexecução Parquet idempotente em 2026-10-02.
 
 ## Arquitetura e segurança
 
@@ -97,4 +97,4 @@ Validação em 2026-10-02: **30 testes unitários e 6 de integração passaram**
 
 804 registros foram preservados após reinício e rollback da API; os agregados PySpark foram reconciliados em sete grupos. A revisão de 804 traces e logs não encontrou os segredos/canários verificados. Estes resultados locais não constituem SLO ou auditoria completa de segurança. [CI com cinco jobs verdes](https://github.com/marcosjcn94-bit/genai-platform-lab/actions/runs/37021265817); novos resultados aparecem em [Actions](https://github.com/marcosjcn94-bit/genai-platform-lab/actions).
 
-AWS não foi provisionada e Databricks remoto continua pendente. Evidências e limites: [ANDAMENTO.md](ANDAMENTO.md), [registro de execução](docs/execution-2026-10-02.md) e [MEMORIA.md](MEMORIA.md).
+Databricks remoto concluído conforme evidência informada pelo usuário. A [CI da versão v0.1.0](https://github.com/marcosjcn94-bit/genai-platform-lab/actions/runs/37024823542) passou. AWS não foi provisionada. Evidências e limites: [ANDAMENTO.md](ANDAMENTO.md), [registro de execução](docs/execution-2026-10-02.md) e [MEMORIA.md](MEMORIA.md).
