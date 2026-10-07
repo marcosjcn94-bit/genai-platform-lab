@@ -4,6 +4,10 @@ Repositório: https://github.com/marcosjcn94-bit/genai-platform-lab
 
 Laboratório local e reproduzível de gateway GenAI: identidade por aplicação, roteamento LiteLLM, registro de consumo no PostgreSQL, fallback limitado, observabilidade e agregação PySpark. O provedor padrão é um mock determinístico; chamadas Ollama são locais e opcionais. O relatório deriva dos registros do LiteLLM, sem ledger paralelo.
 
+# Arquitetura
+
+<img width="1216" height="483" alt="image" src="https://github.com/user-attachments/assets/399f7ce9-fb0e-4f7f-a64b-60f9147e25c7" />
+
 ## Requisitos
 
 - Windows 10/11, PowerShell, Docker Desktop com containers Linux e `uv`.
