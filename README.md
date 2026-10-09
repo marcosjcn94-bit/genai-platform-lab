@@ -6,7 +6,8 @@ Laboratório local e reproduzível de gateway GenAI: identidade por aplicação,
 
 # Arquitetura
 
-<img width="1216" height="483" alt="image" src="https://github.com/user-attachments/assets/399f7ce9-fb0e-4f7f-a64b-60f9147e25c7" />
+<img width="4420" height="2676" alt="genai-platform-lab-arquitetura" src="https://github.com/user-attachments/assets/e40570bb-60db-4fe8-870c-92a245eafb60" />
+
 
 ## Requisitos
 
