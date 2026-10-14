@@ -1,6 +1,6 @@
 services:
   batch:
-    image: apache/spark:3.5.5-python3
+    image: apache/spark:4.2.0-python3
     profiles: [batch]
     user: "0"
     environment:
