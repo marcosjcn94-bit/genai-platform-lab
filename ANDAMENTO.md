@@ -70,8 +70,11 @@ Repositório: https://github.com/marcosjcn94-bit/genai-platform-lab
 Evidências brutas locais estão em `.tools/` e `artifacts/`, ignorados pelo Git.
 Comandos, decisões e acompanhamento: `docs/execution-2026-10-02.md`.
 
-## 2026-10-14 - Renovate piloto
+## 2026-10-14 - Renovate piloto e rollout
 
-- Workflow semanal/manual e configuração recomendada preparados localmente; action v46.3.8 fixada por SHA completo. YAML/JSON passaram validação estática.
-- A configuração de Actions do repositório ainda bloqueia a criação/aprovação de PRs pelo `GITHUB_TOKEN`; nenhuma execução remota ocorreu. Confirmar antes de alterar essa permissão.
-- Expansão aos outros cinco repositórios e criação do template ficam pendentes da aceitação do piloto.
+- Piloto aceito: run #38572984880 `success` em 2m35s; PRs #5 Apache Spark v4 e #6 Grafana v13; issue #7. CI dos PRs Renovate aguarda aprovação manual (`action_required`).
+- GovERP-AI-Lab integrado; run #38575101716 `success`, PRs #8 e #9 abertos. Dependabot continua em uv/npm/actions; Renovate cobre docker-compose.
+- copiloto-normativo integrado; run #38575100537 `success`, sem atualização de dependência. Fundos privado recebeu commit inicial; run #38575102577 `success`, sem atualização de dependência.
+- RNA-seq PR #1 continua aberto: `research` falhou porque versão instalada não corresponde ao `reference/packages.lock.csv` no build R; `test` e CodeQL passaram. Sem merge até decisão sobre esse gate.
+- Template privado: `https://github.com/marcosjcn94-bit/renovate-template`. Usar **Use this template**; habilitar em cada novo repo a permissão para PRs com `GITHUB_TOKEN`. Não há auto-merge; Renovate não le vulnerability alerts sem permissão adicional.
+- Controles: 5 PRs concorrentes, 30 min por job, sem cache/artefatos persistidos; diretórios temporários medidos em 33,74 MiB.
