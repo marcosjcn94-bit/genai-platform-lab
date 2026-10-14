@@ -69,3 +69,9 @@ Repositório: https://github.com/marcosjcn94-bit/genai-platform-lab
 
 Evidências brutas locais estão em `.tools/` e `artifacts/`, ignorados pelo Git.
 Comandos, decisões e acompanhamento: `docs/execution-2026-10-02.md`.
+
+## 2026-10-14 - Renovate piloto
+
+- Workflow semanal/manual e configuração recomendada preparados localmente; action v46.3.8 fixada por SHA completo. YAML/JSON passaram validação estática.
+- A configuração de Actions do repositório ainda bloqueia a criação/aprovação de PRs pelo `GITHUB_TOKEN`; nenhuma execução remota ocorreu. Confirmar antes de alterar essa permissão.
+- Expansão aos outros cinco repositórios e criação do template ficam pendentes da aceitação do piloto.
