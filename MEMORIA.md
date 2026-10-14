@@ -82,8 +82,13 @@ Preparação anterior à autorização:
 - Etapa 7: AWS somente estática; sem credentials/plan/apply/recursos. Conferência financeira futura exigida.
 - Etapa 9: README criado com comandos e limites observados; revisar após desbloquear o container API.
 
-## 2026-10-14 - Renovate piloto
+## 2026-10-14 - Renovate: piloto e rollout
 
-- Workflow semanal/manual e `renovate.json` recomendada adicionados localmente; action v46.3.8 fixada por SHA completo. Sem Dependabot no branch remoto e sem `RENOVATE_TOKEN`; usa `GITHUB_TOKEN`, sem auto-merge e com limite de cinco PRs concorrentes.
-- YAML e JSON passaram validação estática. O GitHub ainda não permite Actions criar/aprovar PRs (`can_approve_pull_request_reviews=false`); não houve execução remota. Validar esse ajuste com o usuário antes de mudar a configuração do repositório.
-- Após o run aceito no piloto, registrar duração/retrabalho e só então replicar aos demais repositórios e preparar o template para `marcosjcn94-bit`.
+- Action `renovatebot/github-action` v46.3.8 fixada no SHA `f0f41e5f2e706165f6814b1d0f0d0e319de7d1d9`. Workflow semanal/manual, `GITHUB_TOKEN`, sem auto-merge, concorrência máxima 5 e timeout de 30 min. Sem `RENOVATE_TOKEN`/PAT. PRs #2 a #4 corrigiram a permissão `workflows: write` inválida e a ausencia do repositório-alvo.
+- Piloto run #38572984880: `success` em 2m35s, 45 dependências em 9 arquivos, PR #5 Apache Spark v4, PR #6 Grafana v13, issue #7 Dependency Dashboard. Checks de CI desses PRs ficaram `action_required` por uso de `GITHUB_TOKEN`; revisão/aprovação humana pendente.
+- Runs posteriores: GovERP-AI-Lab #38575101716 `success` (1m17s), PRs #8 imagens container minor/patch e #9 Grafana v13; copiloto-normativo #38575100537 `success` (1m06s), sem PR de dependência; Fundos #38575102577 `success` (1m10s), sem PR de dependência. Os três avisaram que Renovate não pode ler vulnerability alerts.
+- GovERP preserva Dependabot para uv, npm e GitHub Actions; Renovate fica limitado a docker-compose. `Fundos` era privado/vazio e recebeu commit inicial no branch `main`.
+- RNA-seq: PR #1 com apenas workflow/config continua aberto. Os jobs `research` falharam na verificação de versões R de `reference/packages.lock.csv` durante o build `reference/Dockerfile`; `test`, CodeQL e lint passaram. Nao mesclar nem alterar o lock de pesquisa sem decisao explicita.
+- Permissao Actions para criar/aprovar PRs habilitada nos cinco repositórios, mantendo default token permissions `read`. No piloto e em GovERP, PRs Renovate criaram execucoes `action_required`. Sem auto-merge.
+- Template privado `marcosjcn94-bit/renovate-template`; usar **Use this template** para novos repositórios. A permissão Actions para PRs não e herdada e deve ser habilitada por repositório.
+- Armazenamento medido nos diretórios temporários: 33,74 MiB/602 arquivos no rollout e 0,26 MiB/78 arquivos no checkout temporario do piloto. Workflows não persistem cache/artefatos. Limites: 5 PRs concorrentes e 30 min por job; validacao YAML/JSON e checks CI dos PRs.
