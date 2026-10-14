@@ -81,3 +81,9 @@ Preparação anterior à autorização:
 - Etapa 6: PySpark 3.5.5 em Docker validou fixture sintética, Decimal, nulos, deduplicação, totais e idempotência de Parquet. Execução Databricks não feita.
 - Etapa 7: AWS somente estática; sem credentials/plan/apply/recursos. Conferência financeira futura exigida.
 - Etapa 9: README criado com comandos e limites observados; revisar após desbloquear o container API.
+
+## 2026-10-14 - Renovate piloto
+
+- Workflow semanal/manual e `renovate.json` recomendada adicionados localmente; action v46.3.8 fixada por SHA completo. Sem Dependabot no branch remoto e sem `RENOVATE_TOKEN`; usa `GITHUB_TOKEN`, sem auto-merge e com limite de cinco PRs concorrentes.
+- YAML e JSON passaram validação estática. O GitHub ainda não permite Actions criar/aprovar PRs (`can_approve_pull_request_reviews=false`); não houve execução remota. Validar esse ajuste com o usuário antes de mudar a configuração do repositório.
+- Após o run aceito no piloto, registrar duração/retrabalho e só então replicar aos demais repositórios e preparar o template para `marcosjcn94-bit`.
