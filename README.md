@@ -105,3 +105,7 @@ Validação em 2026-10-02: **30 testes unitários e 6 de integração passaram**
 804 registros foram preservados após reinício e rollback da API; os agregados PySpark foram reconciliados em sete grupos. A revisão de 804 traces e logs não encontrou os segredos/canários verificados. Estes resultados locais não constituem SLO ou auditoria completa de segurança. [CI com cinco jobs verdes](https://github.com/marcosjcn94-bit/genai-platform-lab/actions/runs/37021265817); novos resultados aparecem em [Actions](https://github.com/marcosjcn94-bit/genai-platform-lab/actions).
 
 Databricks remoto concluído conforme evidência informada pelo usuário. A [CI da versão v0.1.0](https://github.com/marcosjcn94-bit/genai-platform-lab/actions/runs/37024823542) passou. Demo AWS executada, infraestrutura de execução removida e snapshot final excluído com autorização específica. Evidências e limites: [ANDAMENTO.md](ANDAMENTO.md), [registro de execução](docs/execution-2026-10-02.md) e [MEMORIA.md](MEMORIA.md).
+
+## License
+
+The [MIT License](LICENSE) applies only to the original source code and project documentation. Datasets, images, PDFs, model weights, and third-party materials are outside this grant and retain their applicable terms. Excluded files include `data/fixtures/usage-v1.json` and `docs/aws-costs-2026-10-02.json`.
