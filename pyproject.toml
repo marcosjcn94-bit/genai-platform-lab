@@ -3,7 +3,8 @@ name = "genai-platform-lab"
 version = "0.1.0"
 requires-python = ">=3.12,<3.13"
 dependencies = [
-  "fastapi==0.115.12",
+  "fastapi==0.141.0",
+  "starlette>=1.3.1,<2",
   "uvicorn==0.34.2",
   "httpx==0.28.1",
   "prometheus-client==0.21.1",
